@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000"
+    tools:context=".MainActivity">
+
+    <!-- This LinearLayout groups the content that needs to be centered -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/start_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!-- Main Logo -->
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="221dp"
+            android:layout_height="200dp"
+            android:background="@drawable/logo_background_glow"
+            android:src="@drawable/smrtx_logo" />
+
+        <!-- App Title -->
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="SMRTX"
+            android:textColor="@android:color/white"
+            android:textSize="48sp"
+            android:textStyle="bold" />
+
+        <!-- Subtitle -->
+        <TextView
+            android:id="@+id/subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Smart Plug, Safe Home."
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
+
+        <!-- Features List -->
+        <LinearLayout
+            android:id="@+id/features_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/FeatureTextStyle"
+                android:drawableStart="@drawable/ic_feature_shield"
+                android:text="Auto-safety shutoff" />
+
+            <TextView
+                style="@style/FeatureTextStyle"
+                android:drawableStart="@drawable/ic_feature_wifi"
+                android:text="LAN presence detection" />
+
+            <TextView
+                style="@style/FeatureTextStyle"
+                android:drawableStart="@drawable/ic_feature_bolt"
+                android:text="Smart energy control" />
+
+            <TextView
+                style="@style/FeatureTextStyle"
+                android:drawableStart="@drawable/ic_feature_chart"
+                android:text="Usage insights" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- Start Smart Button -->
+    <Button
+        android:id="@+id/start_button"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="48dp"
+        android:backgroundTint="#FFA500"
+        android:text="Start Smart"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

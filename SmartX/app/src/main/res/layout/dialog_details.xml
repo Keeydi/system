@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:background="#333333">
+
+    <TextView
+        android:id="@+id/detail_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/orange"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        tools:text="Item Name" />
+
+    <TextView
+        android:id="@+id/detail_voltage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        tools:text="Voltage: 220-240V" />
+
+    <TextView
+        android:id="@+id/detail_wattage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        tools:text="Wattage: 50 Watts" />
+
+    <TextView
+        android:id="@+id/detail_frequency"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        tools:text="Frequency: 60 Hz" />
+
+</LinearLayout>

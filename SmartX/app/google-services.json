@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "310406201804",
+    "firebase_url": "https://smartx-c590e-default-rtdb.firebaseio.com",
+    "project_id": "smartx-c590e",
+    "storage_bucket": "smartx-c590e.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:310406201804:android:0c6e87af43bcd93375dd69",
+        "android_client_info": {
+          "package_name": "com.example.smartx"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDcKKFc3Vy3dEWnUWhgx2G6sxwXN0qtP-k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

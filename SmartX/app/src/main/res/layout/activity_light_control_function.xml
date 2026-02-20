@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black"
+    tools:context=".LightControlFunctionActivity">
+
+    <ImageView
+        android:id="@+id/info_icon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:src="@drawable/ic_info"
+        app:tint="@android:color/white"
+        app:layout_constraintEnd_toStartOf="@+id/settings_icon"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/settings_icon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/ic_settings"
+        app:tint="@android:color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/control_function_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="72dp"
+        android:text="CONTROL FUNCTION"
+        android:textColor="@android:color/white"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="32dp"
+        app:layout_constraintTop_toBottomOf="@+id/control_function_title">
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switch_automatic_cutoff"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:text="AUTOMATIC CUTOFF"
+            android:theme="@style/OrangeSwitch"
+            android:textColor="@android:color/white" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switch_manual_cutoff"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:text="MANUAL CUTOFF"
+            android:theme="@style/OrangeSwitch"
+            android:textColor="@android:color/white" />
+
+        <RelativeLayout
+            android:id="@+id/prioritized_lights_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="PRIORITIZED LIGHTS"
+                android:textColor="@android:color/white" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switch_prioritized_lights"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:theme="@style/OrangeSwitch"
+                android:layout_centerVertical="true" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <ImageButton
+            android:id="@+id/homepage_button"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Homepage"
+            android:src="@drawable/ic_homepage"
+            android:scaleType="fitCenter"
+            android:padding="8dp"
+            app:tint="@android:color/white" />
+
+        <ImageButton
+            android:id="@+id/light_button"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Light"
+            android:src="@drawable/lightbulb2_icon"
+            android:scaleType="fitCenter"
+            android:padding="8dp"
+            app:tint="#FFA500" />
+
+        <ImageButton
+            android:id="@+id/user_button"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:contentDescription="User"
+            android:src="@drawable/ic_user"
+            android:scaleType="fitCenter"
+            android:padding="8dp"
+            app:tint="@android:color/white" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

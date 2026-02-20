@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="OrangeSwitch" parent="Theme.AppCompat.Light">
+        <!-- active thumb & track color (30% transparency) -->
+        <item name="colorControlActivated">@color/orange</item>
+
+        <!-- inactive thumb color -->
+        <item name="colorSwitchThumbNormal">#BDBDBD</item>
+
+        <!-- inactive track color (30% transparency) -->
+        <item name="android:colorForeground">#42000000</item>
+    </style>
+
+    <style name="FeatureTextStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:drawablePadding">16dp</item>
+        <item name="android:layout_marginBottom">16dp</item>
+    </style>
+
+    <style name="MonthTextStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="CustomPopupMenu" parent="@style/Widget.AppCompat.PopupMenu">
+        <item name="android:popupBackground">@drawable/popup_menu_background</item>
+    </style>
+</resources>

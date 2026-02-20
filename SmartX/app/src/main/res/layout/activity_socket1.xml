@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black"
+    tools:context=".Socket1Activity">
+
+    <TextView
+        android:id="@+id/socket_1_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="Socket 1"
+        android:textColor="@android:color/white"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/socket_1_subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Electric Fan"
+        android:textColor="@android:color/darker_gray"
+        app:layout_constraintStart_toStartOf="@+id/socket_1_title"
+        app:layout_constraintTop_toBottomOf="@+id/socket_1_title" />
+
+    <ImageView
+        android:id="@+id/info_icon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="8dp"
+        android:src="@drawable/ic_info"
+        app:tint="@android:color/white"
+        app:layout_constraintEnd_toStartOf="@+id/settings_icon"
+        app:layout_constraintTop_toTopOf="@+id/socket_1_title" />
+
+    <ImageView
+        android:id="@+id/settings_icon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/ic_settings"
+        app:tint="@android:color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/socket_1_title" />
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/socket_tabs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@android:color/black"
+        app:tabIndicatorColor="@color/orange"
+        app:layout_constraintTop_toBottomOf="@+id/socket_1_subtitle"
+        app:tabTextColor="@android:color/white">
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/s1_tab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="S1" />
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/s2_tab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="S2" />
+    </com.google.android.material.tabs.TabLayout>
+
+    <TextView
+        android:id="@+id/connection_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Connected"
+        android:textColor="#FFA500"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/socket_tabs" />
+
+    <ImageView
+        android:id="@+id/outlet_icon"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/outlet_icon"
+        app:layout_constraintEnd_toStartOf="@+id/connection_progress"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/connection_status"
+        app:tint="@android:color/white" />
+
+    <ProgressBar
+        android:id="@+id/connection_progress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:progress="100"
+        android:progressTint="#888888"
+        android:indeterminateTint="#FFA500"
+        app:layout_constraintBottom_toBottomOf="@+id/outlet_icon"
+        app:layout_constraintEnd_toStartOf="@+id/fan_icon"
+        app:layout_constraintStart_toEndOf="@+id/outlet_icon"
+        app:layout_constraintTop_toTopOf="@+id/outlet_icon" />
+
+    <ImageView
+        android:id="@+id/fan_icon"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginEnd="32dp"
+        android:src="@drawable/fan_icon"
+        app:layout_constraintBottom_toBottomOf="@+id/outlet_icon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/connection_progress"
+        app:layout_constraintTop_toTopOf="@+id/outlet_icon"
+        app:tint="@android:color/white" />
+
+    <Button
+        android:id="@+id/on_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
+        android:backgroundTint="#FFA500"
+        android:text="ON"
+        android:textColor="@android:color/black"
+        app:layout_constraintEnd_toStartOf="@+id/off_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/outlet_icon" />
+
+    <Button
+        android:id="@+id/off_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="32dp"
+        android:backgroundTint="#333333"
+        android:text="OFF"
+        android:textColor="@android:color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/on_button"
+        app:layout_constraintTop_toBottomOf="@+id/outlet_icon" />
+
+    <TextView
+        android:id="@+id/select_new_appliance_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:text="SELECT NEW APPLIANCE:"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/on_button" />
+
+    <LinearLayout
+        android:id="@+id/appliances_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/select_new_appliance_label">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/appliance_text_1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Electric Fan 1"
+                android:textColor="@android:color/white" />
+
+            <Button
+                android:id="@+id/select_button_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#333333"
+                android:text="Select"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/appliance_text_2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Electric Fan 2"
+                android:textColor="@android:color/white" />
+
+            <Button
+                android:id="@+id/select_button_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#333333"
+                android:text="Select"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/appliance_text_3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Electric Fan 3"
+                android:textColor="@android:color/white" />
+
+            <Button
+                android:id="@+id/select_button_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#333333"
+                android:text="Select"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/appliance_text_4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Television"
+                android:textColor="@android:color/white" />
+
+            <Button
+                android:id="@+id/select_button_4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#333333"
+                android:text="Select"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/appliance_text_5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Refrigerator"
+                android:textColor="@android:color/white" />
+
+            <Button
+                android:id="@+id/select_button_5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#333333"
+                android:text="Select"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <ImageButton
+            android:id="@+id/homepage_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Homepage"
+            android:src="@drawable/ic_homepage"
+            app:tint="@android:color/white" />
+
+        <ImageButton
+            android:id="@+id/socket_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Socket"
+            android:src="@drawable/ic_socket"
+            app:tint="#FFA500" />
+
+        <ImageButton
+            android:id="@+id/user_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:contentDescription="User"
+            android:src="@drawable/ic_user"
+            app:tint="@android:color/white" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
