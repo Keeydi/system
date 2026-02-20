@@ -37,6 +37,7 @@ public class ConnectionStateService extends Service {
 
     private final Handler handler = new Handler(Looper.getMainLooper());
     private BroadcastReceiver appStateReceiver;
+    private boolean networkCallbackRegistered = false;
 
     private static final String CHANNEL_ID = "ConnectionStateServiceChannel";
     private static final int NOTIFICATION_ID = 1;
@@ -62,20 +63,26 @@ public class ConnectionStateService extends Service {
             @Override
             public void onAvailable(@NonNull Network network) {
                 super.onAvailable(network);
-                Log.d(TAG, "Network AVAILABLE. Re-arming onDisconnect and setting phone_connected TRUE.");
-                // Re-arm the server-side onDisconnect handler every time network comes back,
-                // then immediately set the value to true.
+                // Always re-arm the server-side onDisconnect so Firebase cleans up if
+                // the client disappears again.
                 phoneConnectedRef.onDisconnect().setValue(false);
-                phoneConnectedRef.setValue(true);
+
+                // Only mark phone as connected when the user actually has the app open.
+                // If no activities are visible (service running after swipe-from-recents),
+                // we must NOT set true — the user has left the app.
+                if (SmartXApplication.getStartedActivities() > 0) {
+                    Log.d(TAG, "Network AVAILABLE + app in foreground → phone_connected TRUE.");
+                    phoneConnectedRef.setValue(true);
+                } else {
+                    Log.d(TAG, "Network AVAILABLE but no visible activities → keeping phone_connected FALSE.");
+                }
             }
 
             @Override
             public void onLost(@NonNull Network network) {
                 super.onLost(network);
-                // No-op: when network is lost we CANNOT write to Firebase here because
-                // there is no connection. The server-side onDisconnect handler (armed in
-                // onAvailable) will automatically set phone_connected = false once the
-                // Firebase server detects the client is gone.
+                // No-op: cannot write to Firebase when there is no connection.
+                // The server-side onDisconnect handler will set phone_connected = false.
                 Log.d(TAG, "Network LOST. Relying on server-side onDisconnect to set phone_connected FALSE.");
             }
         };
@@ -124,15 +131,30 @@ public class ConnectionStateService extends Service {
                                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) ||
                                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET));
         
-        Log.d(TAG, "Initial network check. Is connected: " + isConnected);
-        // Always arm the server-side disconnect handler so Firebase will set false
-        // the moment it can no longer reach this client (phone off, WiFi lost, etc.).
-        phoneConnectedRef.onDisconnect().setValue(false);
-        phoneConnectedRef.setValue(isConnected);
+        Log.d(TAG, "Initial network check. Is connected: " + isConnected
+                + " | Visible activities: " + SmartXApplication.getStartedActivities());
 
-        NetworkRequest request = new NetworkRequest.Builder()
-                .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET).build();
-        connectivityManager.registerNetworkCallback(request, networkCallback);
+        // Always re-arm Firebase's server-side onDisconnect so it cleans up if
+        // the client disappears unexpectedly (process killed, WiFi lost, etc.).
+        phoneConnectedRef.onDisconnect().setValue(false);
+
+        // Only set phone_connected = true when the user is actually in the app.
+        // If onStartCommand fires due to onTaskRemoved or START_STICKY restart
+        // (no visible activities), we must NOT set true — keep it false.
+        if (SmartXApplication.getStartedActivities() > 0) {
+            phoneConnectedRef.setValue(isConnected);
+        } else {
+            Log.d(TAG, "Service (re)started with no visible activities — not setting phone_connected TRUE.");
+        }
+
+        // Guard against registering the callback multiple times (e.g. onTaskRemoved
+        // causes onStartCommand to be called on the already-running service).
+        if (!networkCallbackRegistered) {
+            NetworkRequest request = new NetworkRequest.Builder()
+                    .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET).build();
+            connectivityManager.registerNetworkCallback(request, networkCallback);
+            networkCallbackRegistered = true;
+        }
 
         return START_STICKY;
     }
@@ -149,6 +171,7 @@ public class ConnectionStateService extends Service {
                 Log.e(TAG, "Error unregistering network callback", e);
             }
         }
+        networkCallbackRegistered = false;
 
         if (appStateReceiver != null) {
             try {

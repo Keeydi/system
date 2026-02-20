@@ -24,9 +24,14 @@ public class SmartXApplication extends Application {
     /** How long the app must stay in the background before we signal disconnect. */
     private static final long BACKGROUND_DELAY_MS = 20_000; // 20 seconds
 
-    private int startedActivities = 0;
+    private static int startedActivities = 0;
     private final Handler handler = new Handler(Looper.getMainLooper());
     private Runnable backgroundRunnable;
+
+    /** Returns the number of activities currently in the started (visible) state. */
+    public static int getStartedActivities() {
+        return startedActivities;
+    }
 
     @Override
     public void onCreate() {
