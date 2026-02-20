@@ -1,8 +1,10 @@
 package com.example.smartx;
 
+import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -16,6 +18,7 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
+import android.os.SystemClock;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -162,8 +165,8 @@ public class ConnectionStateService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.e(TAG, "!!! SERVICE DESTROYED !!! Attempting to restart...");
-        
+        Log.e(TAG, "!!! SERVICE DESTROYED !!! Scheduling restart via AlarmManager...");
+
         if (networkCallback != null && connectivityManager != null) {
             try {
                 connectivityManager.unregisterNetworkCallback(networkCallback);
@@ -183,20 +186,62 @@ public class ConnectionStateService extends Service {
 
         handler.removeCallbacksAndMessages(null);
 
-        Intent broadcastIntent = new Intent();
-        broadcastIntent.setAction(ACTION_RESTART_SERVICE);
-        broadcastIntent.setClass(this, ServiceRestarter.class);
-        this.sendBroadcast(broadcastIntent);
+        // Use AlarmManager so the restart survives process death.
+        // On Android 12+, alarm-triggered broadcasts are explicitly allowed
+        // to start foreground services — unlike regular sendBroadcast().
+        scheduleServiceRestart(3_000);
     }
 
     @Override
     public void onTaskRemoved(Intent rootIntent) {
         super.onTaskRemoved(rootIntent);
-        Log.e(TAG, "!!! TASK REMOVED !!! Restarting service...");
-        Intent broadcastIntent = new Intent();
-        broadcastIntent.setAction(ACTION_RESTART_SERVICE);
-        broadcastIntent.setClass(this, ServiceRestarter.class);
-        this.sendBroadcast(broadcastIntent);
+        Log.e(TAG, "!!! TASK REMOVED !!! Scheduling restart via AlarmManager...");
+        // Schedule via AlarmManager — alarm is registered at the OS level so it
+        // survives even if the process is killed immediately after task removal.
+        scheduleServiceRestart(3_000);
+    }
+
+    /**
+     * Schedules a service restart using AlarmManager.
+     *
+     * WHY AlarmManager instead of sendBroadcast():
+     * - On Android 12+, starting a foreground service from a regular broadcast is
+     *   blocked (ForegroundServiceStartNotAllowedException). Alarm-triggered
+     *   broadcasts are explicitly exempted from this restriction.
+     * - AlarmManager registers the alarm at the OS level, so it survives process
+     *   death — unlike sendBroadcast() which is dropped if the process dies first.
+     */
+    private void scheduleServiceRestart(long delayMs) {
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        if (alarmManager == null) return;
+
+        Intent intent = new Intent(this, ServiceRestarter.class);
+        intent.setAction(ACTION_RESTART_SERVICE);
+
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                this, 0, intent,
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+
+        long triggerAt = SystemClock.elapsedRealtime() + delayMs;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            // Android 12+: check if exact alarms are permitted; fall back to inexact.
+            if (alarmManager.canScheduleExactAlarms()) {
+                alarmManager.setExactAndAllowWhileIdle(
+                        AlarmManager.ELAPSED_REALTIME_WAKEUP, triggerAt, pendingIntent);
+            } else {
+                alarmManager.setAndAllowWhileIdle(
+                        AlarmManager.ELAPSED_REALTIME_WAKEUP, triggerAt, pendingIntent);
+            }
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            alarmManager.setExactAndAllowWhileIdle(
+                    AlarmManager.ELAPSED_REALTIME_WAKEUP, triggerAt, pendingIntent);
+        } else {
+            alarmManager.setExact(
+                    AlarmManager.ELAPSED_REALTIME_WAKEUP, triggerAt, pendingIntent);
+        }
+
+        Log.d(TAG, "Service restart scheduled via AlarmManager in " + (delayMs / 1000) + "s.");
     }
 
     @Nullable
