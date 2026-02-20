@@ -17,7 +17,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class CutoffService extends Service {
 
-    private static final long GRACE_PERIOD = 5 * 60 * 1000; // 5 minutes
+    private static final long GRACE_PERIOD = 45 * 1000; // 45 seconds
     private Handler handler;
     private Runnable cutoffRunnable;
 
